@@ -1,0 +1,17 @@
+/* connect this file to ejs template we  need to connect it to index.js */
+body{
+    margin-left: 20px;
+    
+}
+
+.chat{
+    background-color: aqua;
+    padding : 20px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.msg{
+    background-color: blueviolet;
+}

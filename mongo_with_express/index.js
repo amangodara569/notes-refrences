@@ -1,11 +1,14 @@
 const express  = require("express");
 const app = express();
+const path = require("path");
 const mongoose = require("mongoose");
 //requireing model from models
 const Chat = require("./models/chat.js");
+//connecting public , css folder (these are static files)
+app.use(express.static(path.join(__dirname,"public")));
 
 //when we want to use ejs
-const path = require("path");
+
 app.set("views", path.join(__dirname,"/views"));
 app.set("view engine","ejs");
 //
@@ -32,7 +35,8 @@ app.get("/chats", async (req,res)=>{
           //importing all chats
           //ye database se datalekr aa rha h take time = async - use await
     console.log(ourChats);
-    res.send("working");      
+    //this is how we render a page and send data to that
+    res.render("index.ejs",{    ourChats    });    
 });
 
 
@@ -46,3 +50,8 @@ let chat1 = new Chat({
 });
 
 chat1.save().then(res => console.log("saved"));
+
+
+
+//like now everything is done we have created  models , we have data in database , now the only 
+//work left is to send it to front end
