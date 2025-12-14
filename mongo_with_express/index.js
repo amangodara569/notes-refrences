@@ -29,7 +29,8 @@ app.get("/",(req,res)=>{
 let chat1 = new Chat({
     from : "neha",
     to : "aman",
-    message : "send me you diddy",
+    message : "send me your diddy",
+    //if you wrote msg then you wont be able to see message in db mongo wont save it
     created_at : new Date(), //default fn that automatically generates date
 });
 
