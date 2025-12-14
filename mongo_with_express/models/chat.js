@@ -1,7 +1,7 @@
 //professional we will store all the collection in model folder
 //we will require everything in main index.js file only
 const mongoose = require("mongoose");
-const schea = mongoose.Schema;
+const Schema = mongoose.Schema;
 const chatSchema = new Schema ({
     //chats will have (id, from , to , message, created_at(date format others in string))
 
@@ -20,7 +20,7 @@ const chatSchema = new Schema ({
         maxLength : 50,
     },
     created_at : {
-        type : date,
+        type : Date,
         required : true,
     }
 });
@@ -29,3 +29,6 @@ const chatSchema = new Schema ({
 const Chat = mongoose.model("Chat",chatSchema);
 
 module.exports = Chat;
+
+
+//commits on github will only be shown when done on default branch
