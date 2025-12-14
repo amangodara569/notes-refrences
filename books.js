@@ -2,7 +2,6 @@
 
 
 //if we want to store books data in database, then books is name of collection and each docuement is an individual book
-  
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema; //its better to write it while creating schema
 main().then(()=>{
@@ -19,6 +18,11 @@ async function main(params) {
 //we wont see the database until we define scheme or add some data
 //schema for books => kya details cahiye book ke liye = title , author , language, price , publication
 
+
+
+
+//these parameters are just for creation , for updation we need to perform extra operations after that
+//if we want to apply schemas rule with updation use (runValidators: true);
 const bookSchema = new Schema({
     title : String,   //basic way shortcut, but we need to be descriptive
     //we use this when we have only one constraint , when we have many we use this
@@ -29,6 +33,7 @@ const bookSchema = new Schema({
     },
     price:{
         type : Number,
+        min : [12, "error to show them (custom error)"],
         default : 200
     },
     discount:{
@@ -73,3 +78,11 @@ book1.save().then((res)=>{
 //if we apply these properties , then the data will be formatted according to these  parms, and then will be stored in db
 //if we want to store data according to category like agar fiction hai to hi, use enum property
 
+//so the main thing is that => we can add , remove , update , we can basically  prform every operation that we can think of from ide 
+//just go and either see docs , jsut do chatgpt
+
+
+
+//how we can be more precise with errors , 
+//.catch((err)=>{
+   // console.log(err.error.specify fields in which error after seeing from termina)})
