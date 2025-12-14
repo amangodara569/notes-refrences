@@ -25,6 +25,17 @@ app.get("/",(req,res)=>{
 });
 
 
+//creating routes
+app.get("/chats", async (req,res)=>{
+    //we need to get access of those chats from db (modelName.find())
+    let ourChats = await Chat.find();
+          //importing all chats
+          //ye database se datalekr aa rha h take time = async - use await
+    console.log(ourChats);
+    res.send("working");      
+});
+
+
 
 let chat1 = new Chat({
     from : "neha",
@@ -34,4 +45,4 @@ let chat1 = new Chat({
     created_at : new Date(), //default fn that automatically generates date
 });
 
-chat1.save().then(res => console.log(res));
+chat1.save().then(res => console.log("saved"));

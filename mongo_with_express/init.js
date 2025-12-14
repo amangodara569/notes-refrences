@@ -1,7 +1,13 @@
 //use this for initialization of database
 //we need to setup our mongo connection in this
+
+//this setup is for sample to test anything , its not out main db
+
+
+
 const mongoose = require("mongoose");
-main().then(res => console.log(res))
+const Chat = require("./models/chat.js");
+main().then(res => console.log("success"))
     .catch(err => console.log(err));
 
 async function main(){
@@ -10,7 +16,7 @@ async function main(){
 
 
 //creating sample database
-let chats = [
+let allChats = [
     {
         from : "neha",
         to : "preeti",
@@ -31,3 +37,4 @@ let chats = [
     },
 
 ];
+Chat.insertMany(allChats);
