@@ -3,7 +3,7 @@
 
 //this setup is for sample to test anything , its not out main db
 
-
+//we can test model schemas init with custom data and db commands
 
 const mongoose = require("mongoose");
 const Chat = require("./models/chat.js");

@@ -9,7 +9,7 @@ app.use(express.static(path.join(__dirname,"public")));
 //to convert that post req data into readable format
 app.use(express.urlencoded({extended:true}));
 //when we want to use ejs
-
+//we use app.set
 app.set("views", path.join(__dirname,"/views"));
 app.set("view engine","ejs");
 //
@@ -91,3 +91,20 @@ app.post("/chats",(req,res)=>{
     //we can render a new page or we can redirect to an existing one
     res.redirect("/chats");
 });
+
+
+//edit and update route , 
+//har individual chat ke aage ek edit button lagayange , then it will send get to a form 
+//wahan se post req ko redirect krdenge
+//we will use id to edit a particular post
+//edit route
+app.get("/chats/:id/edit", async (req, res)=>{
+    //to get id
+    let { id } = req.parms;
+    //we will search that chat with id in that db
+    let chat = await Chat.findById(id);
+    //then render that chat data
+    res.render("edit.ejs",{chat});
+});
+
+//update route left
