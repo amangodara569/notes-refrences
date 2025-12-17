@@ -8,6 +8,12 @@
 </head>
 <body>
     <h3>ALL CHATS</h3>
+    <!-- for get request -->
+     <!-- to define - request type and a route jispr get request jai gi -->
+    <form method="GET" action="/chats/new">
+        <button>new chat</button>
+    </form>
+    <br/>
     <% for (let chat of ourChats){ %>
      <div class="chat">
         <p>

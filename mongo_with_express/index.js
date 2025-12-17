@@ -6,7 +6,8 @@ const mongoose = require("mongoose");
 const Chat = require("./models/chat.js");
 //connecting public , css folder (these are static files)
 app.use(express.static(path.join(__dirname,"public")));
-
+//to convert that post req data into readable format
+app.use(express.urlencoded({extended:true}));
 //when we want to use ejs
 
 app.set("views", path.join(__dirname,"/views"));
@@ -29,13 +30,14 @@ app.get("/",(req,res)=>{
 
 
 //creating routes
+//main route
 app.get("/chats", async (req,res)=>{
     //we need to get access of those chats from db (modelName.find())
     let ourChats = await Chat.find();
           //importing all chats
           //ye database se datalekr aa rha h take time = async - use await
     console.log(ourChats);
-    //this is how we render a page and send data to that
+    //this is how we render a page and send data to that particular page
     res.render("index.ejs",{    ourChats    });    
 });
 
@@ -55,3 +57,37 @@ chat1.save().then(res => console.log("saved"));
 
 //like now everything is done we have created  models , we have data in database , now the only 
 //work left is to send it to front end
+
+
+//new and create route
+//we will add a butoon on main page and then it will open a form for us 
+//from there we will use post request to insert chat in db
+
+//when to open the form we use get request and to submit it we have to us post request
+app.get("/chats/new", (req,res)=>{
+    res.render("new.ejs");
+});
+//create route
+app.post("/chats",(req,res)=>{
+    let { from, msg, to } = req.body;
+    //ye wo parameters hai jo tune wahan pr form me diye the
+    //now we need to parse data
+    //and to create a new chat  , we already have schema defined , we will use that structure only
+    let newChat  = new Chat({
+        from : from,
+        to: to,
+        message : msg,
+        created_at : new Date(),
+    });
+    //to test
+    console.log(newChat);
+    //to save chat in database
+    //.save is a async function , but we dont need to use await as we are useing .then method-----------------------------imp
+    newChat.save().then(res => {console.log("chat was saved")}).catch(err  => console.log(err));
+    
+    //to send a check test
+    //res.send("working");
+
+    //we can render a new page or we can redirect to an existing one
+    res.redirect("/chats");
+});
