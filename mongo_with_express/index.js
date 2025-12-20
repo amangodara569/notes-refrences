@@ -2,12 +2,16 @@ const express  = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
+//we installed method-overide for put request , require it
+const methodOverride = require("method-override");
 //requireing model from models
 const Chat = require("./models/chat.js");
 //connecting public , css folder (these are static files)
 app.use(express.static(path.join(__dirname,"public")));
 //to convert that post req data into readable format
 app.use(express.urlencoded({extended:true}));
+//using method - override
+app.use(methodOverride("_method"));
 //when we want to use ejs
 //we use app.set
 app.set("views", path.join(__dirname,"/views"));
@@ -36,7 +40,7 @@ app.get("/chats", async (req,res)=>{
     let ourChats = await Chat.find();
           //importing all chats
           //ye database se datalekr aa rha h take time = async - use await
-    console.log(ourChats);
+    //console.log(ourChats);
     //this is how we render a page and send data to that particular page
     res.render("index.ejs",{    ourChats    });    
 });
@@ -70,6 +74,14 @@ app.get("/chats/new", (req,res)=>{
 //create route
 app.post("/chats",(req,res)=>{
     let { from, msg, to } = req.body;
+
+
+
+    //when to use req.params , when data belongs in url , makes route predictable
+        //when data is required to locate the resource  - it goes in parms
+    //use req.body when body is actual content , needed for post put , patch , keeping sensitive data out of url
+    // params - identify the item
+    // body - change or describe the item    
     //ye wo parameters hai jo tune wahan pr form me diye the
     //now we need to parse data
     //and to create a new chat  , we already have schema defined , we will use that structure only
@@ -100,7 +112,7 @@ app.post("/chats",(req,res)=>{
 //edit route
 app.get("/chats/:id/edit", async (req, res)=>{
     //to get id
-    let { id } = req.parms;
+    let { id } = req.params;
     //we will search that chat with id in that db
     let chat = await Chat.findById(id);
     //then render that chat data
@@ -108,3 +120,14 @@ app.get("/chats/:id/edit", async (req, res)=>{
 });
 
 //update route left
+//now when we submit and update the text we need to do that in db
+//so we will use put request for that , to use that we need to update package
+//npm i method-override
+
+app.put("/chats/:id",async (req,res)=>{
+    let { id } =req.params;
+    let { newMsg } = req.body;
+    //finding things always ashynchronous
+    let updatedChat =  await Chat.findByIdAndUpdate(id,{msg: newMsg});
+    res.redirect("/chats");
+});
