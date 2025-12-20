@@ -131,3 +131,15 @@ app.put("/chats/:id",async (req,res)=>{
     let updatedChat =  await Chat.findByIdAndUpdate(id,{msg: newMsg});
     res.redirect("/chats");
 });
+
+//delete route
+//create dlt button and will send request to chats/:id and will dlt it from db also
+
+
+//sab database wale methods async hai 
+app.delete("/chats/:id",async (req, res)=>{
+    let { id } = req.params;
+    let deletedChat = await Chat.findOneAndDelete(id);
+    console.log(deletedChat);
+    res.redirect("/chats");
+})
